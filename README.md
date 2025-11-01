@@ -7,5 +7,7 @@ preprocess folder has codes for diffrent types of preprocesses like advanced nan
 
 after preprocess the dataset can be inserted to the anonymizer to apply k anonimity.
 
+after k anonymity assign bins to values the average of that bins are written as thir new value. This way the anonymized dataset can be inserted into ml. models.
+
 For the given dataset, codes at the folder cdc_decesiontrees can be used for comparing the effects of the k anonimity on decesion trees and codes at deep_learning folder can be used for comparing the effects of the k anonimity on deep learning.
 
