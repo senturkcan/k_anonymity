@@ -1,15 +1,15 @@
 import pandas as pd
 import csv
 
-# First, let's read the entire CSV file as a single text file
+# load .csv
 with open('2021.csv', 'r') as file:
     lines = file.readlines()
 
-# Parse the header line to get feature names
+# make header line feature names
 header_line = lines[0].strip()
 feature_names = header_line.split(',')
 
-# Find indices of features we want to extract
+# Find indices of features that are going to be extracted
 columns_to_extract = ['MARITAL', 'EDUCA', 'EMPLOY1', 'INCOME3', '_SMOKER3', '_AGEG5YR', '_BMI5',
                       'ECIGNOW1', "FRUIT2", "FVGREEN1", "FRENCHF1", 'ALCDAY5',"_DRDXAR3","CHECKUP1",
                       "EXERANY2", "_ASTHMS1", "_RFHYPE6" , "_RFCHOL3", "ADDEPEV3", "DIFFWALK","GENHLTH"]

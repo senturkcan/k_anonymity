@@ -2,15 +2,15 @@ import pandas as pd
 import csv
 from collections import Counter
 
-# First, let's read the entire CSV file as a single text file
+# load .csv
 with open('2021.csv', 'r') as file:
     lines = file.readlines()
 
-# Parse the header line to get feature names
+# make header line feature names
 header_line = lines[0].strip()
 feature_names = header_line.split(',')
 
-# Find indices of features we want to extract
+# Find indices of features that are going to be extracted
 columns_to_extract = ['MARITAL', 'EDUCA', 'EMPLOY1', 'INCOME3', '_SMOKER3', 'ALCDAY5', '_METSTAT', '_AGEG5YR', '_BMI5',
                       'ECIGNOW1']
 feature_indices = {}

@@ -1,10 +1,10 @@
 import pandas as pd
 import numpy as np
 
-# Load your Excel file
+# Load Excel
 df = pd.read_excel('C:/Users/canse/PycharmProjects/cdcanalysis/k=200_anonymity_with_genILoss.xlsx')
 
-# Function to replace hyphen-separated values with their average
+# replace with their average
 def replace_with_average(x):
     if isinstance(x, str) and '-' in x:
         try:

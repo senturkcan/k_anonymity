@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 
-# File path - assuming the text file is in the same directory as this script
 file_path = '2021.csv'
 
 
@@ -14,11 +13,11 @@ def analyze_csv():
         print(f"Error: File '{file_path}' not found.")
         return
 
-    # Read the raw text file
+    # Read 
     with open(file_path, 'r') as f:
         lines = f.readlines()
 
-    # Extract the header line (feature names)
+    # Extract feature names
     header_line = lines[0].strip()
     if header_line.startswith("i have a dataset"):
         # Extract the actual header from the description text
@@ -29,7 +28,7 @@ def analyze_csv():
     # Parse the header to get column names
     column_names = header_line.split(',')
 
-    # Find the data lines
+
     data_lines = []
     for line in lines:
         if line.strip().startswith("1.0,") or line.strip().startswith("A2 is this:"):
@@ -39,16 +38,16 @@ def analyze_csv():
                 line = line[data_start + len("A2 is this:"):].strip()
             data_lines.append(line.strip())
 
-    # Create a proper DataFrame
+    # Create DataFrame
     data_values = [row.split(',') for row in data_lines]
     df = pd.DataFrame(data_values, columns=column_names)
 
-    # Convert to appropriate data types
+    # Convert data types
     for col in df.columns:
         # Try to convert to numeric, if fails keep as is
         df[col] = pd.to_numeric(df[col], errors='ignore')
 
-    # Replace 'nan' strings with actual NaN values
+    # Replace 'nan' strings with actual NaN values (this part can be unnecessery)
     df.replace('nan', np.nan, inplace=True)
 
     # Display basic information
@@ -68,7 +67,7 @@ def analyze_csv():
         'NaN Percentage': nan_percentage.round(2)
     })
 
-    # Display columns with NaN values (filtering out columns with 0 NaNs)
+    # Display columns with NaN values (after filtering out columns with 0 NaNs)
     nan_columns = nan_summary[nan_summary['NaN Count'] > 0]
     print(f"Number of columns with missing values: {len(nan_columns)}")
     print("\nColumns with most missing values (top 20):")
@@ -102,7 +101,7 @@ def analyze_csv():
     plt.savefig('missing_values_chart.png')
     print("Missing values chart saved to 'missing_values_chart.png'")
 
-    # Save cleaned DataFrame to a proper CSV
+    # Save cleaned DataFrame as cleaned_data.csv
     df.to_csv('cleaned_data.csv', index=False)
     print("Cleaned data saved to 'cleaned_data.csv'")
 
