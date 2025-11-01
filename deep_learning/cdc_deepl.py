@@ -161,7 +161,7 @@ plt.close()
 # We can use a simpler model to get feature importance
 from sklearn.ensemble import RandomForestClassifier
 
-# Train a Random Forest for feature importance
+# Train a Random Forest for feature importance check
 rf = RandomForestClassifier(n_estimators=100, random_state=42)
 rf.fit(X_train_processed, y_train_zero_indexed)
 
@@ -176,7 +176,7 @@ for name, transformer, features in preprocessor.transformers_:
             for category in categories:
                 feature_names.append(f"{feature}_{category}")
 
-# Plot top 20 features
+# Plot top 20 most important features according to a random forest classifier.
 if hasattr(rf, 'feature_importances_'):
     importances = rf.feature_importances_
     indices = np.argsort(importances)[-20:]  # Top 20 features
@@ -195,7 +195,7 @@ model.save('health_prediction_model.h5')
 print("\nModel saved as 'health_prediction_model.h5'")
 
 
-# Function to make predictions on new data
+# Makeing predictions on new data
 def predict_health_status(new_data, model, preprocessor):
     """
     Make predictions on new data.

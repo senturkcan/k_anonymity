@@ -23,9 +23,6 @@ class MondrianKAnonymity:
         Args:
             data: DataFrame to anonymize
             qi_columns: List of quasi-identifier columns (default: all columns)
-
-        Returns:
-            Anonymized DataFrame
         """
         # If no QI columns are specified, use all columns
         if qi_columns is None:
@@ -35,13 +32,11 @@ class MondrianKAnonymity:
         self.original_data = data.copy()
         self.quasi_identifiers = qi_columns
 
-        # Identify categorical and numerical columns
+        # Identify categorical and numerical columns and convert categorical to numerical
         self.identify_column_types(data, qi_columns)
-
-        # Preprocess data: convert categorical to numerical
         processed_data = self.preprocess_data(data, qi_columns)
 
-        # Initial partition contains all records
+        # Initial partition (contains all records)
         partition = processed_data.index.tolist()
 
         # Start recursive partitioning
@@ -124,7 +119,7 @@ class MondrianKAnonymity:
 
     def partition_dataset(self, data, partition, columns, result):
         """
-        Recursively partition the dataset until k-anonymity is satisfied
+        Recursively partition the dataset to make k-anonymity is satisfied
 
         Args:
             data: Preprocessed DataFrame
@@ -161,7 +156,7 @@ class MondrianKAnonymity:
 
         # Check if split was successful
         if len(lhs) < self.k or len(rhs) < self.k:
-            # If split doesn't satisfy k-anonymity, don't split
+            # If split doesn't satisfy k-anonymity, don't split as the last action of this loop
             result.append(partition)
         else:
             # Continue recursively
@@ -235,7 +230,7 @@ def parse_single_column_csv(filepath):
                                 len(headers) - len(values))
                 rows.append(values)
 
-            # Create properly formatted DataFrame
+            # Create DataFrame
             result_df = pd.DataFrame(rows, columns=headers)
             return result_df
         except Exception as e:

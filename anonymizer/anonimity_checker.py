@@ -13,9 +13,9 @@ def find_least_common_combinations(filepath, n=10):
     # Read the CSV file
     try:
         df = pd.read_csv(filepath)
-        print(f"Successfully loaded dataset with {len(df)} rows and {len(df.columns)} columns")
+        print(f"loaded a dataset with {len(df)} rows and {len(df.columns)} columns")
     except Exception as e:
-        print(f"Error reading standard CSV format: {e}")
+        print(f"Error reading .csv: {e}")
         try:
             # Try alternative parsing for single-column format
             df = pd.read_csv(filepath, header=None)
@@ -25,12 +25,12 @@ def find_least_common_combinations(filepath, n=10):
                 values = df.iloc[i, 0].split(',')
                 rows.append(values)
             df = pd.DataFrame(rows, columns=headers)
-            print(f"Successfully loaded single-column dataset with {len(df)} rows and {len(df.columns)} columns")
+            print(f"loaded single-column dataset with {len(df)} rows and {len(df.columns)} columns")
         except Exception as e2:
             print(f"Alternative parsing also failed: {e2}")
             return
 
-    # Convert each row to a tuple of values to make it hashable for counting
+    # Convert each row to a tuple
     row_tuples = [tuple(row) for _, row in df.iterrows()]
 
     # Count occurrences of each unique combination
@@ -48,7 +48,7 @@ def find_least_common_combinations(filepath, n=10):
         for col_name, value in zip(df.columns, combination):
             print(f"  {col_name}: {value}")
 
-    # Summary statistics
+    # combination statistics
     counts = [count for _, count in least_common]
     if counts:
         min_count = min(counts)
@@ -59,7 +59,7 @@ def find_least_common_combinations(filepath, n=10):
         print(f"  Maximum occurrences: {max_count}")
         print(f"  Average occurrences: {avg_count:.2f}")
 
-    # Check if k-anonymity (k=30) is maintained
+    # k-anonymity (k=30) mini check
     if min_count < 30:
         print("\n K-anonymity (k=30) check: FAILED")
         violations = sum(1 for _, count in combination_counts.items() if count < 30)
@@ -70,6 +70,5 @@ def find_least_common_combinations(filepath, n=10):
 
 
 if __name__ == "__main__":
-    # Analyze the anonymized dataset
     filepath = "anonymizedk30.csv"
     find_least_common_combinations(filepath, n=10)

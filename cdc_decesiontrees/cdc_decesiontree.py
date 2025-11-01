@@ -12,13 +12,13 @@ import graphviz
 file_path = 'new_dataset.xlsx'
 data = pd.read_excel(file_path)
 
-# Prepare the data (same preprocessing as your original code)
+
 target_column = 'GENHLTH'
 data = data.dropna(subset=[target_column])
 
 features = [col for col in data.columns if col != target_column]
 
-# Handle categorical features
+# Convert categorical features
 for col in features:
     if data[col].dtype == 'object':
         le = LabelEncoder()
@@ -31,7 +31,7 @@ X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.15, random_state=42, stratify=y
 )
 
-# Train the decision tree model (same parameters)
+# Train the decision tree model 
 model = DecisionTreeClassifier(
     max_depth=10,
     min_samples_split=100,
@@ -40,7 +40,7 @@ model = DecisionTreeClassifier(
 
 model.fit(X_train, y_train)
 
-# Method 1: Using matplotlib with plot_tree (Interactive and customizable)
+# Visualization 1: Using matplotlib with plot_tree
 plt.figure(figsize=(25, 15))
 plot_tree(model,
           feature_names=features,
@@ -53,7 +53,7 @@ plt.savefig('decision_tree_structure.png', dpi=300, bbox_inches='tight')
 plt.show()
 print("Decision tree visualization saved as 'decision_tree_structure.png'")
 
-# Method 2: Using graphviz for a more professional look (if graphviz is installed)
+# Visualization 2: Using graphviz
 try:
     dot_data = export_graphviz(model,
                                out_file=None,
@@ -63,12 +63,12 @@ try:
                                rounded=True,
                                special_characters=True)
 
-    # Save as DOT file
+    # Save as .dot
     with open('decision_tree.dot', 'w') as f:
         f.write(dot_data)
     print("Decision tree DOT file saved as 'decision_tree.dot'")
 
-    # If graphviz is available, create PDF/PNG
+    # create .pdf/.png
     try:
         graph = graphviz.Source(dot_data)
         graph.render('decision_tree_graphviz', format='png', cleanup=True)
@@ -81,7 +81,7 @@ except Exception as e:
     print(f"Graphviz export failed: {e}")
 
 
-# Method 3: Create a simplified tree structure plot with better readability
+# Visualization 3: Create a simplified tree structure plot
 def plot_simplified_tree(model, features, max_depth_show=4):
     """Create a simplified tree visualization showing only the top levels"""
 
@@ -115,12 +115,12 @@ def plot_simplified_tree(model, features, max_depth_show=4):
 plot_simplified_tree(model, features, max_depth_show=4)
 
 
-# Method 4: Text-based tree structure with better formatting
+# Visualization 4: Text-based tree structure
 def create_formatted_tree_text(model, features):
     """Create a well-formatted text representation of the tree"""
     tree_rules = export_text(model, feature_names=features, show_weights=True)
 
-    # Save formatted version
+    # Save as .txt
     with open('formatted_decision_tree_rules.txt', 'w') as f:
         f.write("=" * 80 + "\n")
         f.write("DECISION TREE STRUCTURE\n")
@@ -143,7 +143,7 @@ def create_formatted_tree_text(model, features):
 
 create_formatted_tree_text(model, features)
 
-# Method 5: Create a summary of tree statistics
+# Visualization 5: Create a summary of tree statistics
 print("\n" + "=" * 50)
 print("DECISION TREE STATISTICS")
 print("=" * 50)
